@@ -1,25 +1,26 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 // takes otdID as a prop
 export default function OnThisDay({ otdID }) {
 	const [otd, setOtd] = useState([]);
 
-	useEffect(async () => {
-        console.log('OnThisDay', { otdID });
-        // use MM-DD format to fetch selected events for the day via /onthisday/MM-DD using the current blue marble otdID
-        const response = await fetch(`/onthisday/${otdID}`);
-        console.log(response);
-        const data = await response.json();
-        setOtd(data);
+	useEffect(() => {
+        async function fetchData() {
+            // use MM-DD format to fetch selected events for the day via /onthisday/MM-DD using the current blue marble otdID
+            const response = await fetch(`/onthisday/${otdID}`);
+            const data = await response.json();
+            setOtd(data);
+        };
+        fetchData();
 	}, []);
 
 	return (
     <>
-    <h2>On this day...</h2>
-    <aside>First 'selected' event from wikipedia - hopefully nothing offensive.</aside>
-    <p>{otd.text}</p>
+    <h2>Holiday, on this day...</h2>
+    <p>{otd.pageUrl !== undefined ? <Link href={otd.pageUrl}>{otd.text}</Link> : <>nothing(?)</>}</p>
     </>
 	);
 }

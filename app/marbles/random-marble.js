@@ -1,25 +1,30 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-// takes otdID as a prop
-export default function OnThisDay({ otdID }) {
-	const [otd, setOtd] = useState([]);
+export default function RandomMarble({ otdID }) {
+	const [marbleDate, setMarbleDate] = useState(null);
 
-	useEffect(async () => {
-        console.log('OnThisDay', { otdID });
-        // use MM-DD format to fetch selected events for the day via /onthisday/MM-DD using the current blue marble otdID
-        const response = await fetch(`/onthisday/${otdID}`);
-        console.log(response);
-        const data = await response.json();
-        setOtd(data);
+	useEffect(() => {
+        async function fetchData() {
+            // get a random date before today and after 2015-08-02 (the first blue marble image was on 2015-08-03)
+            const randomDate = new Date(Math.floor(Math.random() * (Date.now() - new Date('2015-08-02').getTime()) + new Date('2015-08-02').getTime()));
+            // get in the YYYY-MM-DD format
+            const randomDateStr = randomDate.toISOString().split('T')[0];
+            
+            // prefetch the random marble
+            const response = await fetch(`/bluemarble/${randomDateStr}`);
+            const data = await response.json();
+
+            setMarbleDate(randomDateStr);
+        };
+        fetchData();
 	}, []);
 
 	return (
     <>
-    <h2>On this day...</h2>
-    <aside>First 'selected' event from wikipedia - hopefully nothing offensive.</aside>
-    <p>{otd.text}</p>
+    <Link href={`/marbles/${marbleDate}`}>a random marble ({marbleDate})</Link>
     </>
 	);
 }

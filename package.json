@@ -21,7 +21,7 @@
 	"dependencies": {
 		"@harperdb/http-router": "^0.2.10",
 		"@harperdb/nextjs": "^1.0.2",
-		"mqtt": "^5.10.4",
+		"eventsource": "^3.0.5",
 		"next": "^15.2.1"
 	}
 }

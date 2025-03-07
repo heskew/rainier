@@ -69,7 +69,7 @@ BlueMarble.sourcedFrom(BlueMarbleSource);
 
 class OTDSource extends Resource {
 
-    // use MM-DD format to fetch selected events for the day via https://en.wikipedia.org/api/rest_v1/feed/onthisday/selected/MM/DD
+    // use MM-DD format to fetch selected (holidays) events for the day via https://en.wikipedia.org/api/rest_v1/feed/onthisday/holidays/MM/DD
     async get(query) {
         // default reqDate to today
         let reqDate = new Date().toISOString().split('T')[0].slice(5);
@@ -89,19 +89,19 @@ class OTDSource extends Resource {
         // get the data from the API
         let data = [];
         try {
-            const dateApi = `https://en.wikipedia.org/api/rest_v1/feed/onthisday/selected/${reqDate.replace('-', '/')}`;
-            const dateResponse = await fetch(dateApi);
-            data = await dateResponse.json(); // could throw if not ok
+            const otdApi = `https://en.wikipedia.org/api/rest_v1/feed/onthisday/holidays/${reqDate.replace('-', '/')}`;
+            const otdResponse = await fetch(otdApi);
+            data = await otdResponse.json(); // could throw if not ok
         } catch (error) {
             throw new Error('Failed to fetch OTD data');
         }
         
         // get the first event and return an object with the date, text, from the first page, title, thumbnail (source, width and height) and desktop content url
         // just keeping it simple for this exercise
-        const firstEvent = data.selected[0];
+        const firstEvent = data.holidays[0];
         const { text, pages } = firstEvent;
         const { title: pageTitle, content_urls } = pages[0];
-        const { desktop: pageUrl } = content_urls;
+        const { page: pageUrl } = content_urls.desktop;
 
         return {
             date: reqDate,
