@@ -1,0 +1,27 @@
+{
+	"name": "rainier",
+	"version": "1.0.0",
+	"private": true,
+	"type": "module",
+	"module": "index.js",
+	"scripts": {
+		"build": "harperdb-nextjs build",
+		"format": "prettier --write .",
+		"test": "node --test"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"description": "",
+	"devDependencies": {
+		"@harperdb/code-guidelines": "^0.0.2",
+		"prettier": "^3.5.3"
+	},
+	"prettier": "@harperdb/code-guidelines/prettier",
+	"dependencies": {
+		"@harperdb/http-router": "^0.2.10",
+		"@harperdb/nextjs": "^1.0.2",
+		"mqtt": "^5.10.4",
+		"next": "^15.2.1"
+	}
+}

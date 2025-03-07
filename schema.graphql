@@ -1,0 +1,23 @@
+## Here we can define any tables in our database. This example shows how we define a type as a table using
+## the type name as the table name and specifying it is an "export" available in the REST and other external protocols.
+type BlueMarble @table @export(name: "bluemarble") {
+    id: ID @primaryKey # will be a date string. e.g. yyyy-mm-dd
+    date: String @indexed
+    caption: String
+    image: String
+    otdID: ID @indexed
+    onThisDay: OnThisDay @relationship(from: otdID)
+    # ...want to play with caching the image data when I get a chance
+    # imageOriginUrl: String
+    # image: Bytes
+    # imageWidth: Int
+    # imageHeight: Int
+}
+
+type OnThisDay @table @export(name: "onthisday") {
+    id: ID @primaryKey
+    date: String @indexed
+    text: String
+    pageTitle: String
+    pageUrl: String
+}

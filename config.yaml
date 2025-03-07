@@ -1,0 +1,15 @@
+# This defines the configuration of this application. Each defines a (sub) component that is loaded and
+# used for this application. These components can provide specific functionality and define how different
+# files in your app are loaded.
+rest: true # This provides the HTTP REST interface for all exported resources
+graphqlSchema: # These reads GraphQL schemas to define the schema of database/tables/attributes.
+  files: '*.graphql' # looks for these files
+jsResource: # Loads JavaScript modules such that their exports are exported as resources
+  files: resources.js # the entry module for resources
+'@harperdb/http-router':
+  package: '@harperdb/http-router' # this can include a @version number if desired
+  files: '*.*js' # Load js files so it can find the router.js file and config
+'@harperdb/nextjs':
+  package: '@harperdb/nextjs'
+  files: '/*'
+  dev: false
